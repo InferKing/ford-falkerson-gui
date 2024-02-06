@@ -94,7 +94,14 @@ class MainGUI(tk.Tk):
         # self.button.pack(side=tk.BOTTOM)
 
     def remove_vertex_gui(self):
-        pass
+        if not self.__raw_data:
+            return
+        items = self.__raw_data.pop()
+        for item in items:
+            item.destroy()
+        VertexNameGenerator.decrease_counter()
+        self.canvas.update_idletasks()
+        self.canvas.config(scrollregion=self.canvas.bbox("all"))
 
     def create_temp_frame(self):
         temp_frame = tk.Frame(self.frame, bg=config.BG_CANVAS_COLOR)
@@ -110,7 +117,7 @@ class MainGUI(tk.Tk):
         entry = ttk.Entry(temp_frame)
         entry.grid(column=1, row=0, **config.ENTRY_STYLE_DICT)
 
-        self.__raw_data.append((lbl, entry))
+        self.__raw_data.append((lbl, entry, temp_frame))
         self.canvas.update_idletasks()
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
 

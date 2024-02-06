@@ -11,3 +11,7 @@ class VertexNameGenerator:
         name = VertexNameGenerator.__vertex_names[VertexNameGenerator.__counter]
         VertexNameGenerator.__counter += 1
         return name
+
+    @staticmethod
+    def decrease_counter():
+        VertexNameGenerator.__counter -= 1
