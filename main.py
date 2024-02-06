@@ -53,10 +53,7 @@ class MainGUI(tk.Tk):
         self.canvas = tk.Canvas(self, bg=config.BG_CANVAS_COLOR)
         self.canvas.grid(column=0, columnspan=3, row=1)
         self.update()
-        # canvas_width = self.canvas.winfo_width()
-        # canvas_height = self.canvas.winfo_height()
-        # print(canvas_width, canvas_height)
-        # self.canvas.create_line(0, canvas_height-2, canvas_width, canvas_height-2)
+
         self.scrollbar = tk.Scrollbar(self, command=self.canvas.yview)
         self.scrollbar.grid(sticky='nse', column=3, row=1)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
@@ -66,7 +63,6 @@ class MainGUI(tk.Tk):
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
 
         temp_frame = self.create_temp_frame()
-
         self.origin_lbl = ttk.Label(temp_frame, text='Исток (O)', style=config.LBL_STYLE_NAME)
         self.origin_lbl.grid(column=0, row=2)
         self.origin_entry = ttk.Entry(temp_frame)
@@ -83,7 +79,7 @@ class MainGUI(tk.Tk):
 
         self.configure(menu=self.__menu)
 
-        self.__raw_data = dict()
+        self.__raw_data = []
 
         # self.frame = tk.Frame(self)
         # self.frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
@@ -113,6 +109,8 @@ class MainGUI(tk.Tk):
         lbl.grid(column=0, row=0)
         entry = ttk.Entry(temp_frame)
         entry.grid(column=1, row=0, **config.ENTRY_STYLE_DICT)
+
+        self.__raw_data.append((lbl, entry))
         self.canvas.update_idletasks()
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
 
