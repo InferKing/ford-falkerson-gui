@@ -53,11 +53,11 @@ class MainGUI(tk.Tk):
         self.origin_entry = ttk.Entry(self)
         self.origin_entry.grid(column=1, row=1, sticky='ew', padx=20, pady=5)
 
-        self.stoke_lbl = ttk.Label(self, text='Сток (Z)', style=config.LBL_STYLE_NAME)
-        self.stoke_lbl.grid(column=0, row=2)
-
-        self.stoke_entry = ttk.Entry(self)
-        self.stoke_entry.grid(column=1, row=2, sticky='ew', padx=20, pady=5)
+        # self.stoke_lbl = ttk.Label(self, text='Сток (Z)', style=config.LBL_STYLE_NAME)
+        # self.stoke_lbl.grid(column=0, row=2)
+        #
+        # self.stoke_entry = ttk.Entry(self)
+        # self.stoke_entry.grid(column=1, row=2, sticky='ew', padx=20, pady=5)
 
         self.configure(menu=self.__menu)
 
