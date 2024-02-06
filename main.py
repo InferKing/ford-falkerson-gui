@@ -59,8 +59,7 @@ class MainGUI(tk.Tk):
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.frame = tk.Frame(self.canvas, padx=2)
         self.canvas.create_window(0, 0, window=self.frame, anchor=tk.NW, width=self.canvas.winfo_width())
-        self.canvas.update_idletasks()
-        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        self.update_canvas()
 
         temp_frame = self.create_temp_frame()
         self.origin_lbl = ttk.Label(temp_frame, text='Исток (O)', style=config.LBL_STYLE_NAME)
@@ -100,8 +99,7 @@ class MainGUI(tk.Tk):
         for item in items:
             item.destroy()
         VertexNameGenerator.decrease_counter()
-        self.canvas.update_idletasks()
-        self.canvas.config(scrollregion=self.canvas.bbox("all"))
+        self.update_canvas()
 
     def create_temp_frame(self):
         temp_frame = tk.Frame(self.frame, bg=config.BG_CANVAS_COLOR)
@@ -118,6 +116,9 @@ class MainGUI(tk.Tk):
         entry.grid(column=1, row=0, **config.ENTRY_STYLE_DICT)
 
         self.__raw_data.append((lbl, entry, temp_frame))
+        self.update_canvas()
+
+    def update_canvas(self):
         self.canvas.update_idletasks()
         self.canvas.config(scrollregion=self.canvas.bbox("all"))
 
