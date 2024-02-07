@@ -25,7 +25,7 @@ class GraphGUI(tk.Toplevel):
         G = nx.DiGraph()
         data = DataConverter().json_to_graph(FileManager().load_file_data(config.FILENAME))
         G.add_edges_from([(edge[0], edge[1], {'capacity': capacity}) for edge, capacity in zip(data[0], data[1])])
-        pos = nx.spring_layout(G, center=(0, 0))
+        pos = nx.spring_layout(G, k=len(data[1]))
         self.fig = plt.figure()
         self.ax = self.fig.add_subplot(111)
         self.canvas = FigureCanvasTkAgg(self.fig, self.frame)
