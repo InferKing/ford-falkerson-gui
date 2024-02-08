@@ -1,4 +1,45 @@
 # Алгоритм Форда-Фалкерсона.
+
+## Установка и запуск программы
+
+Для начала клонируем репозиторий (необходим Git на компьютере)
+
+```bash
+mkdir my-folder
+cd my-folder
+git init
+git clone https://github.com/InferKing/ford-falkerson-gui.git
+```
+
+Или клонируем в уже существующую папку
+
+```bash
+git init
+git clone https://github.com/InferKing/ford-falkerson-gui.git
+```
+
+Далее **ОБЯЗАТЕЛЬНО** создайте и активируйте виртуальное окружение для работы проекта
+
+```bash
+cd ford-falkerson-gui
+python -m venv .venv
+source .venv/scripts/activate
+```
+
+Теперь устанавливаем в виртуальное окружение необходимые модули
+
+```
+pip install tk matplotlib networkx
+```
+
+Последний шаг - запуск программы. 
+
+```bash
+python main.py
+```
+
+Наслаждаемся программой и читаем дальше как работать с ней!
+
 ## Исток
 В поле "Исток" нужно указывать с какой вершиной графа происходит соединение, 
 а также поток, который может передаваться по этому пути (дуге). 
