@@ -45,7 +45,7 @@ class GraphGUI(tk.Toplevel):
         self.lbl_flow.pack(pady=10)
 
         self.lbl_path = ttk.Label(self.frame2, text=config.TEXT_BODY_RESULT_FLOW, style=config.LBL_STYLE_TL_NAME)
-        self.lbl_path.pack(pady=10)
+        self.lbl_path.pack(pady=10, padx=10)
 
         ford_falkerson = nx.maximum_flow(G, "O", "Z")
 
