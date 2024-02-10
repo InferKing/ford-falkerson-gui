@@ -8,7 +8,7 @@ from entry_validator import EntryValidator
 class DataConverter(LogMixin):
     def widget_to_json(self, raw_data: list[tuple[Label, Entry]]) -> str:
         try:
-            raw = [{item[0]['text']: item[1].get()} for item in raw_data]
+            raw = [{item[0].cget('text'): item[1].get()} for item in raw_data]
             raw = list(map(EntryValidator().clean_data, raw))
             return json.dumps(raw)
         except (IndexError, Exception):

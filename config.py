@@ -1,6 +1,6 @@
 # System args
-BG_COLOR = '#d9f8ff'
-BG_CANVAS_COLOR = '#edfcff'
+# BG_COLOR = '#d9f8ff'
+# BG_CANVAS_COLOR = '#edfcff'
 H1_STYLE_NAME = 'h1.TLabel'
 LBL_STYLE_NAME = 'lbl.TLabel'
 LBL_STYLE_TL_NAME = 'lbl_tl.TLabel'
