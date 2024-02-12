@@ -5,8 +5,9 @@ from data_converter import DataConverter
 from file_manager import FileManager
 from logger import LogMixin
 from tkinter.messagebox import showerror
+from help import HelpGUI
+from graph import GraphGUI
 import config
-import graph
 import logging
 import tkinter as tk
 import customtkinter as ctk
@@ -22,23 +23,22 @@ class MainGUI(ctk.CTk, LogMixin):
 
         for ind in range(3):
             self.columnconfigure(ind, weight=1)
-        
-        # Menu
-        self.__menu = tk.Menu(self, background='#ff8000', foreground='black', activebackground='white', activeforeground='black')
-        self.__help_menu = tk.Menu(self.__menu, tearoff=0)
-        self.__help_menu.add_command(label=config.TEXT_SUB_HELP, command=lambda: system('start README.md'))
-        self.__menu.add_cascade(label=config.TEXT_HELP, menu=self.__help_menu)
+
+        self.menu_frame = tk.Frame(self, bg=self.cget('bg'))
+        self.menu_frame.grid(row=0, columnspan=3, sticky="nsew")
+        self.help_btn = ctk.CTkButton(self.menu_frame, text=config.TEXT_HELP, width=60, height=24, corner_radius=0, fg_color=self.cget('bg'), command=self.show_help)
+        self.help_btn.pack(anchor='nw', ipadx=6)
 
         self.title_lbl = ctk.CTkLabel(self, text=config.TEXT_BODY_TITLE, font=('Arial', 22))
-        self.title_lbl.grid(columnspan=3, column=0, row=0, pady=15)
+        self.title_lbl.grid(columnspan=3, column=0, row=1, pady=15)
 
         # Separate window for fields
         self.canvas = tk.Canvas(self, highlightthickness=0, bg=self.cget('bg'))
-        self.canvas.grid(column=0, columnspan=3, row=1)
+        self.canvas.grid(column=0, columnspan=3, row=2)
         self.update()
 
         self.scrollbar = ctk.CTkScrollbar(self, command=self.canvas.yview)
-        self.scrollbar.grid(sticky='nse', column=3, row=1)
+        self.scrollbar.grid(sticky='nse', column=3, row=2)
         self.canvas.configure(yscrollcommand=self.scrollbar.set)
         self.frame = tk.Frame(self.canvas, padx=2, bg=self.cget('bg'))
         self.canvas.create_window(0, 0, window=self.frame, anchor=tk.NW, width=self.canvas.winfo_width())
@@ -46,22 +46,22 @@ class MainGUI(ctk.CTk, LogMixin):
 
         temp_frame = self.create_temp_frame()
         self.origin_lbl = ctk.CTkLabel(temp_frame, text='Исток (O)')
-        self.origin_lbl.grid(column=0, row=2)
+        self.origin_lbl.grid(column=0, row=3)
         self.origin_entry = ctk.CTkEntry(temp_frame)
-        self.origin_entry.grid(column=1, row=2, **config.ENTRY_STYLE_DICT)
+        self.origin_entry.grid(column=1, row=3, **config.ENTRY_STYLE_DICT)
 
         self.add_vertex_btn = ctk.CTkButton(self, text=config.TEXT_ADD_VERTEX, command=self.add_vertex_gui)
-        self.add_vertex_btn.grid(column=0, row=2, **config.BTN_STYLE_DICT)
+        self.add_vertex_btn.grid(column=0, row=3, **config.BTN_STYLE_DICT)
 
         self.remove_vertex_btn = ctk.CTkButton(self, text=config.TEXT_REMOVE_VERTEX, command=self.remove_vertex_gui)
-        self.remove_vertex_btn.grid(column=1, row=2, **config.BTN_STYLE_DICT)
+        self.remove_vertex_btn.grid(column=1, row=3, **config.BTN_STYLE_DICT)
 
         self.show_graph_btn = ctk.CTkButton(self, text=config.TEXT_TO_GRAPH, command=self.prepare_to_graph)
-        self.show_graph_btn.grid(column=2, row=2, columnspan=2, **config.BTN_STYLE_DICT)
+        self.show_graph_btn.grid(column=2, row=3, columnspan=2, **config.BTN_STYLE_DICT)
         
         # self.help_btn = ctk.CTkButton(self, text=config.TEXT_HELP, command=lambda: system('start README.md'))
         # self.help_btn.grid(column=0, row=3, columnspan=3, **config.BTN_STYLE_DICT)
-        self.configure(menu=self.__menu)
+        # self.configure(menu=self.__menu)
         self.__raw_data = []
 
     def remove_vertex_gui(self):
@@ -109,9 +109,13 @@ class MainGUI(ctk.CTk, LogMixin):
         self.show_graph_gui()
 
     def show_graph_gui(self):
-        graph_window = graph.GraphGUI(self)
+        graph_window = GraphGUI(self)
         graph_window.grab_set()
         self.logger.info('Graph window opened')
+    
+    def show_help(self):
+        help_window = HelpGUI(self)
+        self.logger.info('Help window opened')
 
 
 def main():

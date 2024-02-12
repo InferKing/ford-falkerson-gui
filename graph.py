@@ -12,6 +12,7 @@ class GraphGUI(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
         ctk.set_appearance_mode("dark")
+        self.title(config.TEXT_APP_TITLE)
         self.frame = tk.Frame(self)
         self.frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
@@ -35,10 +36,10 @@ class GraphGUI(ctk.CTkToplevel):
         self.frame2 = tk.Frame(self, bg=self.cget('bg'))
         self.frame2.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
         self.lbl_flow = ctk.CTkLabel(self.frame2, text=config.TEXT_BODY_RESULT_FLOW)
-        self.lbl_flow.pack(pady=10)
+        self.lbl_flow.pack(pady=7)
 
         self.lbl_path = ctk.CTkLabel(self.frame2, text=config.TEXT_BODY_RESULT_FLOW)
-        self.lbl_path.pack(pady=10, padx=10)
+        self.lbl_path.pack(pady=7, padx=10)
 
         ford_falkerson = nx.maximum_flow(G, "O", "Z")
 
