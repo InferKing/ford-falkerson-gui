@@ -1,3 +1,4 @@
 .venv
 app_logging.log
 data.json
+.idea
