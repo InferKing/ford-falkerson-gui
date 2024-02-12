@@ -17,7 +17,7 @@ import customtkinter as ctk
 class MainGUI(ctk.CTk, LogMixin):
     def __init__(self):
         super().__init__()
-        ctk.set_appearance_mode("dark")
+        ctk.set_appearance_mode(config.APPEARANCE_MODE)
         self.title(config.TEXT_APP_TITLE)
         self.resizable(False, False)
 
@@ -26,7 +26,7 @@ class MainGUI(ctk.CTk, LogMixin):
 
         self.menu_frame = tk.Frame(self, bg=self.cget('bg'))
         self.menu_frame.grid(row=0, columnspan=3, sticky="nsew")
-        self.help_btn = ctk.CTkButton(self.menu_frame, text=config.TEXT_HELP, width=60, height=24, corner_radius=0, fg_color=self.cget('bg'), command=self.show_help)
+        self.help_btn = ctk.CTkButton(self.menu_frame, text=config.TEXT_HELP, fg_color=self.cget('bg'), command=self.show_help, **config.BTN_HELP_STYLE_DICT)
         self.help_btn.pack(anchor='nw', ipadx=6)
 
         self.title_lbl = ctk.CTkLabel(self, text=config.TEXT_BODY_TITLE, font=('Arial', 22))
@@ -45,7 +45,7 @@ class MainGUI(ctk.CTk, LogMixin):
         self.update_canvas()
 
         temp_frame = self.create_temp_frame()
-        self.origin_lbl = ctk.CTkLabel(temp_frame, text='Исток (O)')
+        self.origin_lbl = ctk.CTkLabel(temp_frame, text=config.TEXT_SOURCE_LBL)
         self.origin_lbl.grid(column=0, row=3)
         self.origin_entry = ctk.CTkEntry(temp_frame)
         self.origin_entry.grid(column=1, row=3, **config.ENTRY_STYLE_DICT)
@@ -59,9 +59,6 @@ class MainGUI(ctk.CTk, LogMixin):
         self.show_graph_btn = ctk.CTkButton(self, text=config.TEXT_TO_GRAPH, command=self.prepare_to_graph)
         self.show_graph_btn.grid(column=2, row=3, columnspan=2, **config.BTN_STYLE_DICT)
         
-        # self.help_btn = ctk.CTkButton(self, text=config.TEXT_HELP, command=lambda: system('start README.md'))
-        # self.help_btn.grid(column=0, row=3, columnspan=3, **config.BTN_STYLE_DICT)
-        # self.configure(menu=self.__menu)
         self.__raw_data = []
 
     def remove_vertex_gui(self):
@@ -98,14 +95,14 @@ class MainGUI(ctk.CTk, LogMixin):
 
     def prepare_to_graph(self):
         new = list(map(lambda item: item[:-1], self.__raw_data))
-        new.append([ttk.Label(text='O'), self.origin_entry])
-        new.append([ttk.Label(text='Z'), ttk.Entry()])
+        new.append([ttk.Label(text=config.TEXT_SOURCE), self.origin_entry])
+        new.append([ttk.Label(text=config.TEXT_STOCK), ttk.Entry()])
         result = DataConverter().widget_to_json(new)
         if not result:
             self.logger.warning('DataConverter returned empty data')
             showerror('Ошибка', 'Данные в полях указаны неверно')
             return
-        FileManager().save_file_data(config.FILENAME, result)
+        FileManager().save_file_data(config.FILENAME_DATA, result)
         self.show_graph_gui()
 
     def show_graph_gui(self):

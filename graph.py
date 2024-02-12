@@ -11,13 +11,13 @@ import customtkinter as ctk
 class GraphGUI(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        ctk.set_appearance_mode("dark")
+        ctk.set_appearance_mode(config.APPEARANCE_MODE)
         self.title(config.TEXT_APP_TITLE)
         self.frame = tk.Frame(self)
         self.frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
         G = nx.DiGraph()
-        data = DataConverter().json_to_graph(FileManager().load_file_data(config.FILENAME))
+        data = DataConverter().json_to_graph(FileManager().load_file_data(config.FILENAME_DATA))
         G.add_edges_from([(edge[0], edge[1], {'capacity': capacity}) for edge, capacity in zip(data[0], data[1])])
         pos = nx.spring_layout(G, k=len(data[1]))
         self.fig = plt.figure()
@@ -41,7 +41,7 @@ class GraphGUI(ctk.CTkToplevel):
         self.lbl_path = ctk.CTkLabel(self.frame2, text=config.TEXT_BODY_RESULT_FLOW)
         self.lbl_path.pack(pady=7, padx=10)
 
-        ford_falkerson = nx.maximum_flow(G, "O", "Z")
+        ford_falkerson = nx.maximum_flow(G, config.TEXT_SOURCE, config.TEXT_STOCK)
 
         self.lbl_flow.configure(text=config.TEXT_BODY_RESULT_FLOW + f': {ford_falkerson[0]}')
         self.lbl_path.configure(text=config.TEXT_BODY_RESULT_PATH + f': {ford_falkerson[1]}')
