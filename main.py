@@ -9,6 +9,7 @@ import config
 import graph
 import logging
 import tkinter as tk
+import customtkinter as ctk
 
 
 
@@ -82,14 +83,14 @@ class MainGUI(ctk.CTk, LogMixin):
 
     def add_vertex_gui(self):
         temp_frame = self.create_temp_frame()
-        lbl = ttk.Label(temp_frame, text=VertexNameGenerator.get_vertex_name(), style=config.LBL_STYLE_NAME, width=5)
+        lbl = ctk.CTkLabel(temp_frame, text=VertexNameGenerator.get_vertex_name(), width=5)
         lbl.grid(column=0, row=0)
-        entry = ttk.Entry(temp_frame)
+        entry = ctk.CTkEntry(temp_frame)
         entry.grid(column=1, row=0, **config.ENTRY_STYLE_DICT)
 
         self.__raw_data.append([lbl, entry, temp_frame])
         self.update_canvas()
-        self.logger.info(f'Widget added with name {lbl["text"]}')
+        self.logger.info(f'Widget added with name {lbl.cget("text")}')
 
     def update_canvas(self):
         self.canvas.update_idletasks()
