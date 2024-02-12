@@ -6,15 +6,21 @@ import tkinter.ttk as ttk
 from file_manager import FileManager
 from data_converter import DataConverter
 import config
-import customtkinter as ctk
 
 
-class GraphGUI(ctk.CTkToplevel):
+class GraphGUI(tk.Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
-        ctk.set_appearance_mode("dark")
+        self.configure(bg=config.BG_COLOR)
         self.frame = tk.Frame(self)
         self.frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+        self.__lbl_style = ttk.Style()
+        self.__lbl_style.configure(
+            config.LBL_STYLE_TL_NAME,
+            font='Arial 12',
+            background=config.BG_COLOR
+        )
 
         G = nx.DiGraph()
         data = DataConverter().json_to_graph(FileManager().load_file_data(config.FILENAME))
@@ -33,14 +39,15 @@ class GraphGUI(ctk.CTkToplevel):
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
-        self.frame2 = tk.Frame(self, bg=self.cget('bg'))
+        self.frame2 = tk.Frame(self, bg=config.BG_COLOR)
         self.frame2.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
-        self.lbl_flow = ctk.CTkLabel(self.frame2, text=config.TEXT_BODY_RESULT_FLOW)
+        self.lbl_flow = ttk.Label(self.frame2, text=config.TEXT_BODY_RESULT_FLOW, style=config.LBL_STYLE_TL_NAME)
         self.lbl_flow.pack(pady=10)
 
-        self.lbl_path = ctk.CTkLabel(self.frame2, text=config.TEXT_BODY_RESULT_PATH)
+        self.lbl_path = ttk.Label(self.frame2, text=config.TEXT_BODY_RESULT_FLOW, style=config.LBL_STYLE_TL_NAME)
         self.lbl_path.pack(pady=10)
 
         ford_falkerson = nx.maximum_flow(G, "O", "Z")
-        self.lbl_flow.configure(text=config.TEXT_BODY_RESULT_FLOW + f': {ford_falkerson[0]}')
-        self.lbl_path.configure(text=config.TEXT_BODY_RESULT_PATH + f': {ford_falkerson[1]}')
+
+        self.lbl_flow['text'] = config.TEXT_BODY_RESULT_FLOW + f': {ford_falkerson[0]}'
+        self.lbl_path['text'] = config.TEXT_BODY_RESULT_PATH + f': {ford_falkerson[1]}'
