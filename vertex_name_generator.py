@@ -13,5 +13,10 @@ class VertexNameGenerator:
         return name
 
     @staticmethod
+    def reset_counter():
+        VertexNameGenerator.__counter = 0
+
+    @staticmethod
     def decrease_counter():
-        VertexNameGenerator.__counter -= 1
+        if VertexNameGenerator.__counter > 0:
+            VertexNameGenerator.__counter -= 1

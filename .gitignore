@@ -2,3 +2,4 @@
 app_logging.log
 data.json
 __pycache__
+.idea
